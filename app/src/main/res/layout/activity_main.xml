@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e0e6f3"
+    tools:context=".MainActivity">
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_MainActivity_runWithVolley"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#00a4e8"
+            android:text="@string/rb_MainActivity_runWithVolley_String" />
+
+        <RadioButton
+            android:id="@+id/rb_MainActivity_runWithRetrofit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#00a4e8"
+            android:text="@string/rb_MainActivity_runWithRetrofit_String" />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edtLayout_MainActivity_cityName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/enter_city_name"
+        android:textColorHint="@color/white"
+        app:endIconMode="clear_text"
+        app:hintTextColor="#922a35"
+        app:layout_constraintEnd_toEndOf="@+id/btn_MainActivity_Search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtInput_MainActivity_cityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4770a9"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_MainActivity_WeatherList"
+        android:layout_width="409dp"
+        android:layout_height="556dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtLayout_MainActivity_cityName" />
+
+    <ImageButton
+        android:id="@+id/btn_MainActivity_Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="#4770a9"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="@+id/edtLayout_MainActivity_cityName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edtLayout_MainActivity_cityName"
+        app:srcCompat="@drawable/ic_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
