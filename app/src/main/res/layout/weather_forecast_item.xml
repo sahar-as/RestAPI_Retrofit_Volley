@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txt_WeatherForcastItem_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        tools:text="@string/txt_WeatherForcastItem_Date_string" />
+
+    <TextView
+        android:id="@+id/txt_WeatherForcastItem_Status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        tools:text="@string/txt_WeatherForcastItem_Status_strign" />
+
+    <ImageView
+        android:id="@+id/img_WeatherForcastItem_weatherImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight=".5"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txt_WeatherForcastItem_MinMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.5"
+        android:textAlignment="center"
+        tools:text="@string/txt_WeatherForcastItem_MinMax_string" />
+</LinearLayout>
