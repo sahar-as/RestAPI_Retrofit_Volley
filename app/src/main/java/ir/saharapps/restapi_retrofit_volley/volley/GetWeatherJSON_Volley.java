@@ -38,7 +38,7 @@ public class GetWeatherJSON_Volley {
                     JSONObject cityInfo = response.getJSONObject(0);
                     cityID = cityInfo.getString("woeid");
                     volleyGetCityIdListener.onResponse(cityID);
-                    Log.d(TAG, "onResponse: TTTTTTTTTTTTT " + cityID);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     volleyGetCityIdListener.onError("Something Wrong");
@@ -52,5 +52,28 @@ public class GetWeatherJSON_Volley {
             }
         });
         MySingleton.getInstance(mContext).addToRequestQueue(cityIdRequest);
+    }
+
+    public void getCityWeatherById(String cityId){
+        String url = "https://www.metaweather.com/api/location/" + cityId;
+
+        JsonArrayRequest cityWeatherByIdRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    JSONObject cityInfo = response.getJSONObject(0);
+                    cityID = cityInfo.getString("woeid");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(mContext, "Check spell of city", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        MySingleton.getInstance(mContext).addToRequestQueue(cityWeatherByIdRequest);
+
     }
 }
