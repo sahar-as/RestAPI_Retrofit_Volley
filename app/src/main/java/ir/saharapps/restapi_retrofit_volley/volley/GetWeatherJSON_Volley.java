@@ -23,7 +23,12 @@ public class GetWeatherJSON_Volley {
         mContext = context;
     }
 
-    public String getCityId(String cityName){
+    public interface VolleyGetCityIdListener{
+        void onError(String message);
+        void onResponse(String cityID);
+    }
+
+    public void getCityId(String cityName, VolleyGetCityIdListener volleyGetCityIdListener){
         String url = "https://www.metaweather.com/api/location/search/?query=" + cityName;
 
         JsonArrayRequest cityIdRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -32,9 +37,11 @@ public class GetWeatherJSON_Volley {
                 try {
                     JSONObject cityInfo = response.getJSONObject(0);
                     cityID = cityInfo.getString("woeid");
+                    volleyGetCityIdListener.onResponse(cityID);
                     Log.d(TAG, "onResponse: TTTTTTTTTTTTT " + cityID);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    volleyGetCityIdListener.onError("Something Wrong");
                     Toast.makeText(mContext, "Check spell of city", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -45,7 +52,5 @@ public class GetWeatherJSON_Volley {
             }
         });
         MySingleton.getInstance(mContext).addToRequestQueue(cityIdRequest);
-//        Toast.makeText(mContext, cityID, Toast.LENGTH_SHORT).show();
-        return cityID;
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import ir.saharapps.restapi_retrofit_volley.volley.GetWeatherJSON_Volley;
 
@@ -38,7 +39,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(rbBtnVolley.isChecked()){
                     GetWeatherJSON_Volley weatherInfo = new GetWeatherJSON_Volley(MainActivity.this);
-                    weatherInfo.getCityId(edtCityName.getText().toString());
+                    weatherInfo.getCityId(edtCityName.getText().toString(), new GetWeatherJSON_Volley.VolleyGetCityIdListener() {
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onResponse(String cityID) {
+                            Toast.makeText(MainActivity.this, "CityID is: " + cityID, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
