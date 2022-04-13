@@ -8,6 +8,9 @@ public class WeatherModel {
     private float max_temp;
     private float the_temp;
 
+    public WeatherModel() {
+    }
+
     public WeatherModel(String id, String weather_state_name, String applicable_date, float min_temp, float max_temp, float the_temp) {
         this.id = id;
         this.weather_state_name = weather_state_name;

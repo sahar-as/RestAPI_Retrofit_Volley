@@ -14,6 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ir.saharapps.restapi_retrofit_volley.WeatherModel;
+
 public class GetWeatherJSON_Volley {
     private static final String TAG = "GetWeatherJSON_Volley";
     String cityID = "";
@@ -55,22 +60,35 @@ public class GetWeatherJSON_Volley {
     }
 
     public void getCityWeatherById(String cityId){
+        List<WeatherModel> report = new ArrayList<>();
         String url = "https://www.metaweather.com/api/location/" + cityId;
 
-        JsonArrayRequest cityWeatherByIdRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        JsonObjectRequest cityWeatherByIdRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
                 try {
-                    JSONObject cityInfo = response.getJSONObject(0);
-                    cityID = cityInfo.getString("woeid");
+                    JSONArray weatherReportList = response.getJSONArray("consolidated_weather");
+
+                    WeatherModel weatherObject = new WeatherModel();
+
+                    for(int i = 0; i<weatherReportList.length(); i++) {
+                        JSONObject oneDay = (JSONObject) weatherReportList.get(i);
+                        weatherObject.setId(oneDay.getString("id"));
+                        weatherObject.setWeather_state_name(oneDay.getString("weather_state_name"));
+                        weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
+                        weatherObject.setMin_temp(oneDay.getLong("min_temp"));
+                        weatherObject.setMax_temp(oneDay.getLong("max_temp"));
+                        weatherObject.setThe_temp(oneDay.getLong("the_temp"));
+                        report.add(weatherObject);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(mContext, "Check spell of city", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
             }
         });
         MySingleton.getInstance(mContext).addToRequestQueue(cityWeatherByIdRequest);
