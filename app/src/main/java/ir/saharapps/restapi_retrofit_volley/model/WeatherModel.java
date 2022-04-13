@@ -1,4 +1,4 @@
-package ir.saharapps.restapi_retrofit_volley;
+package ir.saharapps.restapi_retrofit_volley.model;
 
 public class WeatherModel {
     private String id;

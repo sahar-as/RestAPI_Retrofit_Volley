@@ -1,6 +1,7 @@
 package ir.saharapps.restapi_retrofit_volley;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -11,8 +12,13 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ir.saharapps.restapi_retrofit_volley.adapter.VolleyAdapter;
+import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 import ir.saharapps.restapi_retrofit_volley.volley.GetWeatherJSON_Volley;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     EditText edtCityName;
     RadioButton rbBtnVolley, rbBtnRetrofit;
     RecyclerView rvWeatherStatus;
+    List<WeatherModel> WeatherForecastList = new ArrayList<>();
+
+
+
 
 
     @Override
@@ -29,13 +39,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         edtCityName = findViewById(R.id.edtInput_MainActivity_cityName);
         imgBtnSearch = findViewById(R.id.btn_MainActivity_Search);
         rbBtnVolley = findViewById(R.id.rb_MainActivity_runWithVolley);
-        rbBtnRetrofit = findViewById(R.id.rb_MainActivity_runWithRetrofit);
-        rvWeatherStatus = findViewById(R.id.rv_MainActivity_WeatherList);
-
         rbBtnVolley.setChecked(true);
+        rbBtnRetrofit = findViewById(R.id.rb_MainActivity_runWithRetrofit);
+
+
+        rvWeatherStatus = findViewById(R.id.rv_MainActivity_WeatherList);
+        rvWeatherStatus.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        VolleyAdapter adapter = new VolleyAdapter(WeatherForecastList, getApplicationContext());
+        rvWeatherStatus.setAdapter(adapter);
+
 
         imgBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(List<WeatherModel> weatherForecast) {
                             for(WeatherModel model : weatherForecast){
                                 Log.d(TAG, "onResponse: TTTTTTTTTTTTTT " + model.toString());
+                                WeatherForecastList.add(model);
                             }
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 }

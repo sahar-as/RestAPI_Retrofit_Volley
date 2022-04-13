@@ -16,19 +16,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import ir.saharapps.restapi_retrofit_volley.WeatherModel;
+import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 
 public class GetWeatherJSON_Volley {
     private static final String TAG = "GetWeatherJSON_Volley";
     String cityID = "";
 
+    public static final String GET_CITY_ID_LINK = "https://www.metaweather.com/api/location/search/?query=";
+    public static final String GET_CITY_WEATHER_LINK = "https://www.metaweather.com/api/location/";
+
     Context mContext;
     public GetWeatherJSON_Volley(Context context) {
         mContext = context;
     }
-
-
 
     //Listener for getting weather forecast by city Name
     public interface VolleyGetWeatherByNameListener{
@@ -37,6 +39,10 @@ public class GetWeatherJSON_Volley {
     }
     //Method of getting weather forecast by city name
     public void getWeatherForecastByName(String cityName, VolleyGetWeatherByNameListener volleyGetWeatherByNameListener){
+        if(cityName.trim().toLowerCase().equals("tehran")){
+            Log.d(TAG, "getWeatherForecastByName: dddddddddlllll");
+            cityName = "Tehrān";
+        }
         getCityId(cityName, new VolleyGetCityIdListener() {
             @Override
             public void onError(String message) {
@@ -67,7 +73,7 @@ public class GetWeatherJSON_Volley {
     }
     //Method of Getting city id by its name
     public void getCityId(String cityName, VolleyGetCityIdListener volleyGetCityIdListener){
-        String url = "https://www.metaweather.com/api/location/search/?query=" + cityName;
+        String url = GET_CITY_ID_LINK  + cityName;
 
         JsonArrayRequest cityIdRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -101,7 +107,7 @@ public class GetWeatherJSON_Volley {
     //Method of getting weather forecast by Id
     public void getCityWeatherById(String cityId, VolleyGetWeatherByIdListener volleyGetWeatherByIdListener){
         List<WeatherModel> report = new ArrayList<>();
-        String url = "https://www.metaweather.com/api/location/" + cityId;
+        String url = GET_CITY_WEATHER_LINK + cityId;
 
         JsonObjectRequest cityWeatherByIdRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -117,7 +123,7 @@ public class GetWeatherJSON_Volley {
                         weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
                         weatherObject.setMin_temp(oneDay.getLong("min_temp"));
                         weatherObject.setMax_temp(oneDay.getLong("max_temp"));
-                        weatherObject.setThe_temp(oneDay.getLong("the_temp"));
+//                        weatherObject.setThe_temp(oneDay.getLong("the_temp"));
                         report.add(weatherObject);
                     }
                     volleyGetWeatherByIdListener.onResponse(report);

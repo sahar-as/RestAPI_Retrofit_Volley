@@ -3,4 +3,7 @@
     <string name="rb_MainActivity_runWithVolley_String">Run with Volley</string>
     <string name="rb_MainActivity_runWithRetrofit_String">Run with Retrofit</string>
     <string name="enter_city_name">Enter City Name</string>
+    <string name="txt_WeatherForcastItem_Date_string">Date</string>
+    <string name="txt_WeatherForcastItem_Status_strign">Status</string>
+    <string name="txt_WeatherForcastItem_MinMax_string">Min and Max</string>
 </resources>
