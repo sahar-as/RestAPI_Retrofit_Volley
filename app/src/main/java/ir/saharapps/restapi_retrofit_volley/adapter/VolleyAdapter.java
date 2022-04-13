@@ -57,10 +57,15 @@ public class VolleyAdapter extends RecyclerView.Adapter<VolleyAdapter.ItemHolder
         WeatherModel weatherModel = weatherForecastList.get(position);
         holder.txtDate.setText(weatherModel.getApplicable_date());
         holder.txtStatus.setText(weatherModel.getWeather_state_name());
-        holder.txtMinMax.setText(String.format("Min: %s Max: %s", weatherModel.getMin_temp(), weatherModel.getMax_temp()));
+        float temp = weatherModel.getThe_temp();
+        if(temp == 1000){
+            holder.txtMinMax.setText("null");
+        }else{
+            holder.txtMinMax.setText(String.valueOf(temp));
+        }
+
 
         String imageUrl = WEATHER_STATUS_PICTURE_LINK + weatherStatusAbbreviation.get(weatherModel.getWeather_state_name()) + ".png";
-        Log.d("TAG", "onBindViewHolder: PPPPPPPPP" + imageUrl);
         Picasso.get().load(imageUrl).into(holder.imgWeatherImage);
 
     }

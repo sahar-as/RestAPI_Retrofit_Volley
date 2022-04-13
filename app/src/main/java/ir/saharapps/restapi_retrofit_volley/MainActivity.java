@@ -1,5 +1,6 @@
 package ir.saharapps.restapi_retrofit_volley;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,23 +31,16 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvWeatherStatus;
     List<WeatherModel> WeatherForecastList = new ArrayList<>();
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         edtCityName = findViewById(R.id.edtInput_MainActivity_cityName);
         imgBtnSearch = findViewById(R.id.btn_MainActivity_Search);
         rbBtnVolley = findViewById(R.id.rb_MainActivity_runWithVolley);
         rbBtnVolley.setChecked(true);
         rbBtnRetrofit = findViewById(R.id.rb_MainActivity_runWithRetrofit);
-
 
         rvWeatherStatus = findViewById(R.id.rv_MainActivity_WeatherList);
         rvWeatherStatus.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -62,13 +56,12 @@ public class MainActivity extends AppCompatActivity {
                     weatherInfo.getWeatherForecastByName(edtCityName.getText().toString(), new GetWeatherJSON_Volley.VolleyGetWeatherByNameListener() {
                         @Override
                         public void onError(String message) {
-                            Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT);
                         }
 
                         @Override
                         public void onResponse(List<WeatherModel> weatherForecast) {
+                            WeatherForecastList.clear();
                             for(WeatherModel model : weatherForecast){
-                                Log.d(TAG, "onResponse: TTTTTTTTTTTTTT " + model.toString());
                                 WeatherForecastList.add(model);
                             }
                             adapter.notifyDataSetChanged();

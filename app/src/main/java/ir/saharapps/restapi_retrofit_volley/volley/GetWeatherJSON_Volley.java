@@ -1,8 +1,11 @@
 package ir.saharapps.restapi_retrofit_volley.volley;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import ir.saharapps.restapi_retrofit_volley.MainActivity;
+import ir.saharapps.restapi_retrofit_volley.R;
 import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 
 public class GetWeatherJSON_Volley {
@@ -40,13 +45,21 @@ public class GetWeatherJSON_Volley {
     //Method of getting weather forecast by city name
     public void getWeatherForecastByName(String cityName, VolleyGetWeatherByNameListener volleyGetWeatherByNameListener){
         if(cityName.trim().toLowerCase().equals("tehran")){
-            Log.d(TAG, "getWeatherForecastByName: dddddddddlllll");
             cityName = "Tehrān";
         }
         getCityId(cityName, new VolleyGetCityIdListener() {
             @Override
             public void onError(String message) {
-                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
+                AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+                dialog.setTitle("Error");
+                dialog.setMessage(mContext.getString(R.string.dialogString));
+                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                dialog.show();
             }
 
             @Override
@@ -54,7 +67,6 @@ public class GetWeatherJSON_Volley {
                 getCityWeatherById(cityID, new VolleyGetWeatherByIdListener() {
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -86,7 +98,6 @@ public class GetWeatherJSON_Volley {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     volleyGetCityIdListener.onError("Something Wrong");
-                    Toast.makeText(mContext, "Check spell of city", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -121,9 +132,14 @@ public class GetWeatherJSON_Volley {
                         weatherObject.setId(oneDay.getString("id"));
                         weatherObject.setWeather_state_name(oneDay.getString("weather_state_name"));
                         weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
-                        weatherObject.setMin_temp(oneDay.getLong("min_temp"));
-                        weatherObject.setMax_temp(oneDay.getLong("max_temp"));
-//                        weatherObject.setThe_temp(oneDay.getLong("the_temp"));
+//                        weatherObject.setMin_temp(oneDay.getLong("min_temp"));
+//                        weatherObject.setMax_temp(oneDay.getLong("max_temp"));
+                        try {
+                            weatherObject.setThe_temp(oneDay.getLong("the_temp"));
+                        }catch (Exception e){
+                            weatherObject.setThe_temp(1000);
+                        }
+
                         report.add(weatherObject);
                     }
                     volleyGetWeatherByIdListener.onResponse(report);
@@ -135,7 +151,11 @@ public class GetWeatherJSON_Volley {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Error")
+                        .setMessage("There is not all cites in this free API\n" +
+                                "For more information please visit <a> https://www.metaweather.com</a>");
+                AlertDialog dialog = builder.create();
             }
         });
         MySingleton.getInstance(mContext).addToRequestQueue(cityWeatherByIdRequest);
