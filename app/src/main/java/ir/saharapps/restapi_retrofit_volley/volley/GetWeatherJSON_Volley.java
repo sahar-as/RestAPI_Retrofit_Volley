@@ -28,11 +28,44 @@ public class GetWeatherJSON_Volley {
         mContext = context;
     }
 
+
+
+    //Listener for getting weather forecast by city Name
+    public interface VolleyGetWeatherByNameListener{
+        void onError(String message);
+        void onResponse(List<WeatherModel> weatherForecast);
+    }
+    //Method of getting weather forecast by city name
+    public void getWeatherForecastByName(String cityName, VolleyGetWeatherByNameListener volleyGetWeatherByNameListener){
+        getCityId(cityName, new VolleyGetCityIdListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String cityID) {
+                getCityWeatherById(cityID, new VolleyGetWeatherByIdListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(mContext, "An error occurred", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(List<WeatherModel> weatherForecast) {
+                        volleyGetWeatherByNameListener.onResponse(weatherForecast);
+                    }
+                });
+            }
+        });
+    }
+
+    //Listener for getting CityID
     public interface VolleyGetCityIdListener{
         void onError(String message);
         void onResponse(String cityID);
     }
-
+    //Method of Getting city id by its name
     public void getCityId(String cityName, VolleyGetCityIdListener volleyGetCityIdListener){
         String url = "https://www.metaweather.com/api/location/search/?query=" + cityName;
 
@@ -59,7 +92,14 @@ public class GetWeatherJSON_Volley {
         MySingleton.getInstance(mContext).addToRequestQueue(cityIdRequest);
     }
 
-    public void getCityWeatherById(String cityId){
+    //listener for getting weather forecast by city Id
+    public interface VolleyGetWeatherByIdListener{
+        void onError(String message);
+        void onResponse(List<WeatherModel> weatherForecast);
+    }
+
+    //Method of getting weather forecast by Id
+    public void getCityWeatherById(String cityId, VolleyGetWeatherByIdListener volleyGetWeatherByIdListener){
         List<WeatherModel> report = new ArrayList<>();
         String url = "https://www.metaweather.com/api/location/" + cityId;
 
@@ -69,10 +109,9 @@ public class GetWeatherJSON_Volley {
                 try {
                     JSONArray weatherReportList = response.getJSONArray("consolidated_weather");
 
-                    WeatherModel weatherObject = new WeatherModel();
-
                     for(int i = 0; i<weatherReportList.length(); i++) {
                         JSONObject oneDay = (JSONObject) weatherReportList.get(i);
+                        WeatherModel weatherObject = new WeatherModel();
                         weatherObject.setId(oneDay.getString("id"));
                         weatherObject.setWeather_state_name(oneDay.getString("weather_state_name"));
                         weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
@@ -81,8 +120,10 @@ public class GetWeatherJSON_Volley {
                         weatherObject.setThe_temp(oneDay.getLong("the_temp"));
                         report.add(weatherObject);
                     }
+                    volleyGetWeatherByIdListener.onResponse(report);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    volleyGetWeatherByIdListener.onError("An error occurred");
                 }
             }
         }, new Response.ErrorListener() {
