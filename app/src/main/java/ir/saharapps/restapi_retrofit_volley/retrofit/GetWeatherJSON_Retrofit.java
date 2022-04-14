@@ -32,6 +32,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//Design and developed by Sahar Asadian
+
 public class GetWeatherJSON_Retrofit {
     private static final String TAG = "GetWeatherJSON_Retrofit";
 

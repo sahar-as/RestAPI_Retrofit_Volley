@@ -1,5 +1,7 @@
 package ir.saharapps.restapi_retrofit_volley.model;
 
+//Design and developed by Sahar Asadian
+
 public class WeatherModel {
     private String id;
     private String weather_state_name;

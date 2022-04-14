@@ -20,6 +20,8 @@ import java.util.Map;
 import ir.saharapps.restapi_retrofit_volley.R;
 import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 
+//Design and developed by Sahar Asadian
+
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ItemHolder> {
 
     List<WeatherModel> weatherForecastList = new ArrayList<>();

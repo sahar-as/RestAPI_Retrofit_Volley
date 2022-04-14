@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +19,7 @@ import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 import ir.saharapps.restapi_retrofit_volley.retrofit.GetWeatherJSON_Retrofit;
 import ir.saharapps.restapi_retrofit_volley.volley.GetWeatherJSON_Volley;
 
+//Design and developed by Sahar Asadian
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

@@ -18,11 +18,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import ir.saharapps.restapi_retrofit_volley.MainActivity;
 import ir.saharapps.restapi_retrofit_volley.R;
 import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
+
+//Design and developed by Sahar Asadian
 
 public class GetWeatherJSON_Volley {
     private static final String TAG = "GetWeatherJSON_Volley";
