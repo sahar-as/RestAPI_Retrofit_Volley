@@ -63,7 +63,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ItemHolder> {
             holder.txtMinMax.setText(String.valueOf(temp));
         }
 
-
         String imageUrl = WEATHER_STATUS_PICTURE_LINK + weatherStatusAbbreviation.get(weatherModel.getWeather_state_name()) + ".png";
         Picasso.get().load(imageUrl).into(holder.imgWeatherImage);
 
@@ -86,5 +85,4 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ItemHolder> {
             imgWeatherImage = itemView.findViewById(R.id.img_WeatherForcastItem_weatherImage);
         }
     }
-
 }

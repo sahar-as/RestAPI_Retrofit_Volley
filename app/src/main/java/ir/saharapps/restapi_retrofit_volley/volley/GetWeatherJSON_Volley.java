@@ -133,7 +133,6 @@ public class GetWeatherJSON_Volley {
                         weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
                         try {
                             weatherObject.setThe_temp((float)(oneDay.getDouble("the_temp")));
-                            Log.d(TAG, "onResponse: eeeeeeeeeeeeee " + oneDay.getLong("the_temp"));
                         }catch (Exception e){
                             weatherObject.setThe_temp(1000);
                         }
@@ -157,6 +156,5 @@ public class GetWeatherJSON_Volley {
             }
         });
         MySingleton.getInstance(mContext).addToRequestQueue(cityWeatherByIdRequest);
-
     }
 }

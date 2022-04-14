@@ -109,7 +109,6 @@ public class GetWeatherJSON_Retrofit {
         });
     }
 
-
     public interface ForecastByIDListener {
         void onError(String message);
         void onResponse(List<WeatherModel> weatherForecast);
@@ -148,7 +147,6 @@ public class GetWeatherJSON_Retrofit {
                     Log.e(TAG, "error");
                     Log.e(TAG, "message   = " + response.message());
                 }
-
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
@@ -156,5 +154,4 @@ public class GetWeatherJSON_Retrofit {
             }
         });
     }
-
 }

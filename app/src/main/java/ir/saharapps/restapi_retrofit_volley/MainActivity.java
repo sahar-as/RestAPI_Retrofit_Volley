@@ -68,14 +68,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Log.d(TAG, "onClick: EEEEEEEEEEEEEEEE0");
                     GetWeatherJSON_Retrofit weatherInfo = new GetWeatherJSON_Retrofit(MainActivity.this);
                     weatherInfo.getWeatherForecastByCityName(edtCityName.getText().toString(), new GetWeatherJSON_Retrofit.ForecastByNameListener() {
                         @Override
                         public void onError(String message) {
                             Toast.makeText(MainActivity.this, "An Error occurred", Toast.LENGTH_SHORT).show();
                         }
-
                         @Override
                         public void onResponse(List<WeatherModel> weatherForecast) {
                             WeatherForecastList.clear();
