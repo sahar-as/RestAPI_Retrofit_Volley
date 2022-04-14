@@ -131,10 +131,9 @@ public class GetWeatherJSON_Volley {
                         weatherObject.setId(oneDay.getString("id"));
                         weatherObject.setWeather_state_name(oneDay.getString("weather_state_name"));
                         weatherObject.setApplicable_date(oneDay.getString("applicable_date"));
-//                        weatherObject.setMin_temp(oneDay.getLong("min_temp"));
-//                        weatherObject.setMax_temp(oneDay.getLong("max_temp"));
                         try {
-                            weatherObject.setThe_temp(oneDay.getLong("the_temp"));
+                            weatherObject.setThe_temp((float)(oneDay.getDouble("the_temp")));
+                            Log.d(TAG, "onResponse: eeeeeeeeeeeeee " + oneDay.getLong("the_temp"));
                         }catch (Exception e){
                             weatherObject.setThe_temp(1000);
                         }

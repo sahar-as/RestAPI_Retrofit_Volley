@@ -48,51 +48,53 @@ public class GetWeatherJSON_Retrofit {
         void onResponse(List<WeatherModel> weatherForecast);
     }
     public void getWeatherForecastByCityName(String cityName, ForecastByNameListener forecastByNameListener){
-        Log.d(TAG, "getWeatherForecastByCityName: ddddddddddddddddd0");
+        if(cityName.trim().toLowerCase().equals("tehran")){
+            cityName = "Tehrān";
+        }
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl);
         Retrofit retrofit = retrofitBuilder.client(okHttpBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         MetaWeather metaWeatherApi = retrofit.create(MetaWeather.class);
-        Call<ResponseBody> call = metaWeatherApi.getCityId(cityName);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<JsonArray> call = metaWeatherApi.getCityId(cityName);
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if(response.isSuccessful()){
-
-                    String[] list = null;
                     try {
-                        list = response.body().string().split(",");
+                        JsonObject cityInfo = (JsonObject) response.body().get(0);
+                        cityID = cityInfo.get("woeid").getAsString();
+                        GetWeatherForecastById(cityID, new ForecastByIDListener() {
+                            @Override
+                            public void onError(String message) {
+                                Log.d(TAG, "onError: An error occurred");
+                            }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            @Override
+                            public void onResponse(List<WeatherModel> weatherForecast) {
+                                forecastByNameListener.onResponse(weatherForecast);
+                            }
+                        });
+                    }catch (Exception e){
+                        AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+                        dialog.setTitle("Error");
+                        dialog.setMessage(mContext.getString(R.string.dialogString));
+                        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        dialog.show();
                     }
-                    Log.d(TAG, "onResponse: ppppppppppp " + list[2].replace("\"woeid\":",""));
-
-                    cityID = list[2].replace("\"woeid\":","");
-                    GetWeatherForecastById(cityID, new ForecastByIDListener() {
-                        @Override
-                        public void onError(String message) {
-                            Log.d(TAG, "onError: EEEEEEEEEEEEEEEEE2");
-                        }
-
-                        @Override
-                        public void onResponse(List<WeatherModel> weatherForecast) {
-                            Log.d(TAG, "onResponse: EEEEEEEEEEEEEEEEEEEE3");
-                            forecastByNameListener.onResponse(weatherForecast);
-                        }
-                    });
 
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 t.printStackTrace();
-                if (t.getCause() != null){
-                    Log.e(TAG, "cause    = " + t.getCause().toString());
-                }
                 AlertDialog dialog = new AlertDialog.Builder(mContext).create();
                 dialog.setTitle("Error");
                 dialog.setMessage(mContext.getString(R.string.dialogString));
@@ -127,9 +129,6 @@ public class GetWeatherJSON_Retrofit {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()){
-                    Log.d(TAG, "onResponse: RRRRRRRRRRRR " + response.body().toString());
-
-                    Log.d(TAG, "onResponse: RRRRRRRRRRRR " + response.body());
                     JsonArray weatherReportList = response.body().getAsJsonArray("consolidated_weather");
                     for(int i = 0; i<weatherReportList.size(); i++) {
                         JsonObject oneDay = (JsonObject) weatherReportList.get(i);
@@ -144,38 +143,16 @@ public class GetWeatherJSON_Retrofit {
                         }
                         report.add(weatherObject);
                     }
-                    for(WeatherModel mo: report){
-                        Log.d("TAG", "onResponse: ############### " + mo);
-                    }
                     forecastByIDListener.onResponse(report);
                 }else{
                     Log.e(TAG, "error");
-                    Log.e(TAG, "code      = " + response.code());
                     Log.e(TAG, "message   = " + response.message());
-                    Log.e(TAG, "raw       = " + response.raw().toString());
-                    try {
-                        Log.e(TAG, "errorBody = " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.e(TAG, "headers   = " + response.headers().toString());
-                    Log.e(TAG, "toString  = " + response.toString());
                 }
 
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
                 Log.d(TAG, "onFailure: Failure");
-                if (t.getCause() != null){
-                    Log.e(TAG, "cause    = " + t.getCause().toString());
-                }
-                if (t.getMessage() != null){
-                    Log.e(TAG, "message  = " + t.getMessage());
-                }
-                if (t != null) {
-                    Log.e(TAG, "toString = " + t.toString());
-                }
             }
         });
     }

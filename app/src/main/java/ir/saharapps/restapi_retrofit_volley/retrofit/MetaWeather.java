@@ -1,5 +1,6 @@
 package ir.saharapps.restapi_retrofit_volley.retrofit;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -19,7 +20,7 @@ import retrofit2.http.Query;
 public interface MetaWeather {
 
     @GET("location/search/")
-    Call<ResponseBody> getCityId(@Query("query") String cityName);
+    Call<JsonArray> getCityId(@Query("query") String cityName);
 
     @GET("location/{cityId}/")
     Call<JsonObject> getWeatherForecast(@Path("cityId") String cityId);

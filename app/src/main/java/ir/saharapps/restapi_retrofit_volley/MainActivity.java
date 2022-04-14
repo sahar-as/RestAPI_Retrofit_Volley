@@ -1,11 +1,9 @@
 package ir.saharapps.restapi_retrofit_volley;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.saharapps.restapi_retrofit_volley.adapter.VolleyAdapter;
+import ir.saharapps.restapi_retrofit_volley.adapter.MainAdapter;
 import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 import ir.saharapps.restapi_retrofit_volley.retrofit.GetWeatherJSON_Retrofit;
 import ir.saharapps.restapi_retrofit_volley.volley.GetWeatherJSON_Volley;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         rvWeatherStatus = findViewById(R.id.rv_MainActivity_WeatherList);
         rvWeatherStatus.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        VolleyAdapter adapter = new VolleyAdapter(WeatherForecastList, getApplicationContext());
+        MainAdapter adapter = new MainAdapter(WeatherForecastList, getApplicationContext());
         rvWeatherStatus.setAdapter(adapter);
 
 

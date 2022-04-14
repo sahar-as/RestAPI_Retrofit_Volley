@@ -1,7 +1,6 @@
 package ir.saharapps.restapi_retrofit_volley.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import java.util.Map;
 import ir.saharapps.restapi_retrofit_volley.R;
 import ir.saharapps.restapi_retrofit_volley.model.WeatherModel;
 
-public class VolleyAdapter extends RecyclerView.Adapter<VolleyAdapter.ItemHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ItemHolder> {
 
     List<WeatherModel> weatherForecastList = new ArrayList<>();
     Context mContext;
@@ -40,7 +39,7 @@ public class VolleyAdapter extends RecyclerView.Adapter<VolleyAdapter.ItemHolder
         put("Clear","c");
     }};
 
-    public VolleyAdapter(List<WeatherModel> weatherForecastList, Context context) {
+    public MainAdapter(List<WeatherModel> weatherForecastList, Context context) {
         this.weatherForecastList = weatherForecastList;
         mContext = context;
     }

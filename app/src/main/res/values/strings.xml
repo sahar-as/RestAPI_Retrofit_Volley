@@ -7,5 +7,5 @@
     <string name="txt_WeatherForcastItem_Status_strign">Status</string>
     <string name="txt_WeatherForcastItem_MinMax_string">Min and Max</string>
     <string name="image">image</string>
-    <string name="dialogString">There is not all cites in this free API\nFor more information please visit metaweather.com</string>
+    <string name="dialogString">There are not all cites in this free API\nFor more information please visit metaweather.com</string>
 </resources>
