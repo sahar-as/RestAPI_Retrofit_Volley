@@ -1,4 +1,8 @@
-Implmenting weather forcatst Android applicaiton using Java, Rest API, Volley Library and Retrofit.
+Implmenting weather forcatst Android applicaiton using:
+* Java
+* Rest API
+* Volley
+ *Retrofit
 I have used https://www.metaweather.com
 here is sample picture of application:
 
