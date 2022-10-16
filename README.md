@@ -1,4 +1,4 @@
-Implmenting weather forcatst Android applicaiton using:
+Implmenting weather forcatst Android applicaiton with java using:
 * Java
 * Rest API
 * Volley
